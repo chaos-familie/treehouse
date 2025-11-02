@@ -1,0 +1,12 @@
+@import 'tailwindcss';
+@import '@nuxt/ui';
+
+#app {
+  font-weight: normal;
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  cursor: pointer;
+}
