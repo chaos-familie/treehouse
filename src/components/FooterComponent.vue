@@ -11,7 +11,7 @@
         icon="fa7-brands:discord"
         color="neutral"
         variant="ghost"
-        to="https://discord.chaoten-familie.de"
+        to="https://discord.chaos-familie.de"
         target="_blank"
         aria-label="Discord"
       />
@@ -19,7 +19,7 @@
         icon="fa7-brands:github"
         color="neutral"
         variant="ghost"
-        to="https://github.com/chaoten-familie/treehouse"
+        to="https://github.com/chaos-familie/treehouse"
         target="_blank"
         aria-label="GitHub"
       />
