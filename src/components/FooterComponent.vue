@@ -24,11 +24,11 @@ import type { NavigationMenuItem } from '@nuxt/ui'
 
 const items: NavigationMenuItem[] = [
   {
-    label: 'Privacy',
+    label: 'Datenschutz',
     to: '/legal/privacy',
   },
   {
-    label: 'Impress',
+    label: 'Impressum',
     to: '/legal/impress',
   },
 ]

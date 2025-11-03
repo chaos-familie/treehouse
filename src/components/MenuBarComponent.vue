@@ -1,6 +1,6 @@
 <template>
   <UHeader>
-    <template #title> Chaoten Familie </template>
+    <template #title> Chaos Familie </template>
 
     <UNavigationMenu :items="items" />
   </UHeader>

@@ -1,6 +1,9 @@
-import BlogOverview from '@/views/blog/BlogOverview.vue'
-import BlogPage from '@/views/blog/BlogPage.vue'
+import BlogOverview from '@/views/blog/BlogOverviewView.vue'
+import BlogPage from '@/views/blog/BlogView.vue'
+import FamilyTreeView from '@/views/FamilyTreeView.vue'
 import HomeView from '@/views/HomeView.vue'
+import MemberListView from '@/views/members/MemberListView.vue'
+import MembersView from '@/views/members/MemberView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -10,6 +13,10 @@ const router = createRouter({
 
     { path: '/blog', name: 'blog_overview', component: BlogOverview },
     { path: '/blog/:id', name: 'blog_page', component: BlogPage },
+
+    { path: '/family-tree', name: 'family_tree', component: FamilyTreeView },
+    { path: '/m/:name', name: 'member', component: MembersView },
+    { path: '/members', name: 'member_list', component: MemberListView },
 
     { path: '/:pathMatch(.*)', redirect: '/' },
   ],
