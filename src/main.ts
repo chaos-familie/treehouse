@@ -8,7 +8,7 @@ import ui from '@nuxt/ui/vue-plugin'
 
 const app = createApp(App)
 
-  app.use(router)
-  app.use(ui)
+app.use(router)
+app.use(ui)
 
-  app.mount('#app')
+app.mount('#app')

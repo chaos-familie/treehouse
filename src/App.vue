@@ -1,13 +1,18 @@
+<script setup lang="ts">
+import FooterComponent from './components/FooterComponent.vue'
+import MenuBarComponent from './components/MenuBarComponent.vue'
+</script>
+
 <template>
-  <TolgeeProvider>
-    <UTooltipProvider>
-      <UToaster>
-        <UApp>
-          <UContainer class="gap-4 min-h-screen flex flex-col">
-              <RouterView />
-          </UContainer>
-        </UApp>
-        </UToaster>
-      </UTooltipProvider>
-  </TolgeeProvider>
+  <UToaster>
+    <UApp>
+      <UContainer class="gap-4 flex flex-col">
+        <MenuBarComponent />
+
+        <RouterView />
+
+        <FooterComponent />
+      </UContainer>
+    </UApp>
+  </UToaster>
 </template>
