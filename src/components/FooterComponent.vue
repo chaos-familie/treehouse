@@ -8,14 +8,6 @@
 
     <template #right>
       <UButton
-        icon="fa7-brands:discord"
-        color="neutral"
-        variant="ghost"
-        to="https://discord.chaos-familie.de"
-        target="_blank"
-        aria-label="Discord"
-      />
-      <UButton
         icon="fa7-brands:github"
         color="neutral"
         variant="ghost"
