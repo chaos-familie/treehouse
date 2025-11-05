@@ -8,6 +8,14 @@ export default defineNuxtConfig({
     pageTransition: { name: "page", mode: "out-in" },
     viewTransition: "always",
     head: {
+      link: [
+        {
+          type: "image/png",
+          href: "/favicon.png",
+          rel: "icon",
+          sizes: "64x64",
+        },
+      ],
       title: "Chaos Familie",
     },
   },
