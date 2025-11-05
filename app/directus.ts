@@ -1,4 +1,4 @@
-import { createDirectus, rest } from '@directus/sdk'
+import { createDirectus, rest, type DirectusFile } from '@directus/sdk'
 
 export const ASSETS_URL = 'https://cms.chaos-familie.de/assets/'
 export const Directus = createDirectus('https://cms.chaos-familie.de').with(rest())
@@ -26,4 +26,8 @@ export interface BlogScheme {
   tags: string[]
   post: string
   is_released: boolean
+}
+
+export interface CustomDirectusFile extends DirectusFile {
+  blurhash: string
 }

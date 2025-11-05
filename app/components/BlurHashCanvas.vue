@@ -3,8 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, onMounted, ref } from 'vue'
-import { decode } from 'blurhash'
+import { decode } from "blurhash";
 
 const props = defineProps({
   hash: {
@@ -19,27 +18,27 @@ const props = defineProps({
     type: Number,
     default: 32,
   },
-})
+});
 
-const canvas = ref()
+const canvas = ref();
 
 const drawBlurhash = () => {
-  if (!canvas.value) return
+  if (!canvas.value) return;
 
-  const pixels = decode(props.hash, props.width, props.height)
+  const pixels = decode(props.hash, props.width, props.height);
 
-  const ctx = canvas.value.getContext('2d')
+  const ctx = canvas.value.getContext("2d");
 
   if (ctx) {
-    const imageData = ctx.createImageData(props.width, props.height)
-    imageData.data.set(pixels)
-    ctx.putImageData(imageData, 0, 0)
+    const imageData = ctx.createImageData(props.width, props.height);
+    imageData.data.set(pixels);
+    ctx.putImageData(imageData, 0, 0);
   }
-}
+};
 
 onMounted(() => {
-  drawBlurhash()
-})
+  drawBlurhash();
+});
 </script>
 
 <style scoped>

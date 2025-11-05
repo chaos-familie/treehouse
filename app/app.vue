@@ -1,15 +1,10 @@
-<script setup lang="ts">
-import FooterComponent from './components/FooterComponent.vue'
-import MenuBarComponent from './components/MenuBarComponent.vue'
-</script>
-
 <template>
   <UToaster>
     <UApp>
       <UContainer class="gap-4 flex flex-col">
         <MenuBarComponent />
 
-        <RouterView />
+        <NuxtPage />
 
         <FooterComponent />
       </UContainer>
@@ -30,11 +25,11 @@ import MenuBarComponent from './components/MenuBarComponent.vue'
 
 .page-enter-active,
 .page-leave-active {
-  transition: all 0.4s;
+  transition: all 0.2s;
 }
 .page-enter-from,
 .page-leave-to {
   opacity: 0;
-  filter: blur(1rem);
+  margin-left: 5px;
 }
 </style>
