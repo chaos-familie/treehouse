@@ -52,7 +52,7 @@ const items = computed<NavigationMenuItem[]>(() => [
     icon: "lucide:users",
     label: "Mitglieder",
     to: "/members",
-    active: route.path === "/member",
+    active: route.path === "/members" || route.path.startsWith("/m/"),
   },
 ]);
 </script>
