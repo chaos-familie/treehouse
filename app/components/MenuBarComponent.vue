@@ -1,6 +1,23 @@
 <template>
   <UHeader>
-    <template #title> Chaos Familie </template>
+    <template #title>
+      <div class="flex gap-4">
+        <NuxtImg
+          style="width: 40px; height: 40px"
+          preload
+          format="webp"
+          src="/65b73958-b497-4b77-b1cb-ce5971107c7c"
+          provider="directus"
+          :width="256"
+        />
+
+        <p class="self-center">Chaos Familie</p>
+      </div>
+    </template>
+
+    <template #body>
+      <UNavigationMenu :items="items" orientation="vertical" />
+    </template>
 
     <UNavigationMenu :items="items" />
   </UHeader>
@@ -14,21 +31,25 @@ const route = useRoute();
 
 const items = computed<NavigationMenuItem[]>(() => [
   {
+    icon: "lucide:house",
     label: "Start",
     to: "/",
     active: route.path === "/",
   },
   {
+    icon: "lucide:newspaper",
     label: "Blog",
     to: "/blog",
     active: route.path.startsWith("/blog"),
   },
   {
+    icon: "lucide:tree-deciduous",
     label: "Stammbaum",
     to: "/family-tree",
     active: route.path.startsWith("/family-tree"),
   },
   {
+    icon: "lucide:users",
     label: "Mitglieder",
     to: "/members",
     active: route.path === "/member",

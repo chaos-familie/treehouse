@@ -10,10 +10,28 @@ export default defineNuxtConfig({
     head: {
       link: [
         {
-          type: "image/png",
-          href: "/favicon.png",
+          type: "image/webp",
+          href: "https://cms.chaos-familie.de/assets/65b73958-b497-4b77-b1cb-ce5971107c7c?width=64&format=webp",
           rel: "icon",
           sizes: "64x64",
+        },
+        {
+          type: "image/png",
+          href: "https://cms.chaos-familie.de/assets/65b73958-b497-4b77-b1cb-ce5971107c7c?width=64&format=png",
+          rel: "icon",
+          sizes: "64x64",
+        },
+        {
+          type: "image/webp",
+          href: "https://cms.chaos-familie.de/assets/65b73958-b497-4b77-b1cb-ce5971107c7c?width=32&format=webp",
+          rel: "icon",
+          sizes: "32x32",
+        },
+        {
+          type: "image/png",
+          href: "https://cms.chaos-familie.de/assets/65b73958-b497-4b77-b1cb-ce5971107c7c?width=32&format=png",
+          rel: "icon",
+          sizes: "32x32",
         },
       ],
       title: "Chaos Familie",

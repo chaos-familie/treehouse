@@ -1,13 +1,14 @@
 <template>
-  <div class="grid grid-cols-3 gap-4">
+  <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
     <TransitionGroup>
       <UBlogPost
         v-for="item of data"
         :key="item.blog.id"
         :title="item.blog.title"
-        description="ich bin ein Test blog eintrag, der euch viele tolle dinge Zeigen und erklären möchte - ja lol ey. ich habe keine ahnung was ich schreiben soll also schreibe ich"
+        :description="item.blog.description"
         :date="item.blog.date_updated"
         :to="'/blog/' + item.blog.id"
+        :authors="item.authors"
       >
         <template #header>
           <NuxtImg
@@ -38,11 +39,28 @@
 
 <script setup lang="ts">
 import BlurHashCanvas from "@/components/BlurHashCanvas.vue";
-import { Directus, type BlogScheme, type CustomDirectusFile } from "~/directus";
-import { readFile, readItems } from "@directus/sdk";
+import {
+  ASSETS_URL,
+  Directus,
+  type Author,
+  type BlogScheme,
+  type CustomDirectusFile,
+} from "@/directus";
+import {
+  readFile,
+  readItems,
+  readUser,
+  type DirectusUser,
+} from "@directus/sdk";
 import { ref, TransitionGroup } from "vue";
 
-const data = ref<{ blog: BlogScheme; image: CustomDirectusFile }[]>([]);
+const data = ref<
+  {
+    blog: BlogScheme;
+    image: CustomDirectusFile;
+    authors: Author;
+  }[]
+>([]);
 
 async function init() {
   const entries = await Directus.request<BlogScheme[]>(
@@ -60,8 +78,36 @@ async function init() {
     const image = await Directus.request<CustomDirectusFile>(
       readFile(entry.opener_image)
     );
+    const author = await Directus.request<DirectusUser>(
+      readUser(entry.user_created)
+    );
 
-    data.value.push({ blog: entry, image: image });
+    const authors: Author = [
+      {
+        avatar: { src: String(author.avatar) },
+        name:
+          author.first_name + (author.last_name ? " " + author.last_name : ""),
+        target: "_self",
+        to: "/m/",
+      },
+    ];
+
+    if (entry.user_updated != entry.user_created) {
+      const author2 = await Directus.request<DirectusUser>(
+        readUser(entry.user_updated)
+      );
+
+      authors.push({
+        avatar: { src: String(author2.avatar) },
+        name:
+          author2.first_name +
+          (author2.last_name ? " " + author2.last_name : ""),
+        target: "_self",
+        to: "/m/",
+      });
+    }
+
+    data.value.push({ blog: entry, image: image, authors: authors });
   }
 }
 
