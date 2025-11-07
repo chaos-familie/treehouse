@@ -2,6 +2,7 @@
   <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
     <TransitionGroup>
       <UBlogPost
+        class="max-h-fit"
         v-for="item of data"
         :key="item.blog.id"
         :title="item.blog.title"
@@ -40,7 +41,6 @@
 <script setup lang="ts">
 import BlurHashCanvas from "@/components/BlurHashCanvas.vue";
 import {
-  ASSETS_URL,
   Directus,
   type Author,
   type BlogScheme,

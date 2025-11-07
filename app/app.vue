@@ -1,10 +1,10 @@
 <template>
   <UToaster>
     <UApp>
-      <UContainer class="gap-4 flex flex-col">
+      <UContainer class="gap-4 flex flex-col max-h-screen">
         <MenuBarComponent />
 
-        <NuxtPage />
+        <NuxtPage class="h-screen" />
 
         <FooterComponent />
       </UContainer>
