@@ -63,6 +63,13 @@ export interface Member {
   gender: number;
   relations: Relations;
   tags: string[];
+  gallery: number[];
+  resolved_gallery: {
+    src: string;
+    blurhash: string;
+    width: number;
+    height: number;
+  }[];
 }
 
 export type Relations = {

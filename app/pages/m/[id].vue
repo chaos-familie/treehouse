@@ -1,3 +1,10 @@
+<style scoped>
+img,
+canvas {
+  border-radius: 12px;
+}
+</style>
+
 <template>
   <LoadingComponent v-if="isLoading" />
 
@@ -152,7 +159,7 @@
           <h3 style="margin: 0">Familien Beziehungen</h3>
         </template>
 
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-4">
           <div v-for="member of relations">
             <UPageCard
               v-if="member.relation_type === 'parent'"
@@ -190,6 +197,46 @@
         </div>
       </UCard>
 
+      <UCard variant="subtle" v-if="data?.gallery && data?.gallery.length >= 0">
+        <template #header>
+          <h3 style="margin: 0">Galerie</h3>
+        </template>
+
+        <UCarousel
+          v-slot="{ item }"
+          :items="data.resolved_gallery"
+          :ui="{ item: 'lg:basis-1/3 md:basis-1/2' }"
+          class="w-full mx-auto"
+          loop
+          auto-height
+          :autoplay="{ delay: 4000 }"
+        >
+          <NuxtImg
+            format="webp"
+            :src="item.src"
+            provider="directus"
+            v-slot="{ src, isLoaded, imgAttrs }"
+            :custom="true"
+          >
+            <TransitionGroup :duration="2000" persisted>
+              <img
+                v-if="isLoaded"
+                v-bind="imgAttrs"
+                :src="src"
+                class="w-full h-full"
+              />
+
+              <BlurHashCanvas
+                :hash="item.blurhash"
+                :width="item.width"
+                :height="item.height"
+                v-else
+              />
+            </TransitionGroup>
+          </NuxtImg>
+        </UCarousel>
+      </UCard>
+
       <UCard variant="subtle" v-if="false">
         <template #header>
           <h3 style="margin: 0">Statistiken</h3>
@@ -203,8 +250,13 @@
 
 <script lang="ts" setup>
 import LoadingComponent from "@/components/LoadingComponent.vue";
-import { readItem, readItems } from "@directus/sdk";
-import { Directus, type Member, type Relations } from "~/directus";
+import { readFile, readFiles, readItem, readItems } from "@directus/sdk";
+import {
+  Directus,
+  type CustomDirectusFile,
+  type Member,
+  type Relations,
+} from "~/directus";
 
 const isLoading = ref(true);
 const data = ref<Member>();
@@ -258,6 +310,31 @@ async function init() {
     (value, index, self) =>
       index === self.findIndex((obj) => obj.relation.key === value.relation.key)
   );
+
+  data.value.resolved_gallery = [];
+
+  for (const gallery_id of data.value.gallery ?? []) {
+    const gallery = await Directus.request<{
+      id: number;
+      directus_files_id: string;
+    }>(
+      readItem("members_files", gallery_id, {
+        fields: ["id", "directus_files_id"],
+      })
+    );
+    const file = await Directus.request<CustomDirectusFile>(
+      readFile(gallery.directus_files_id, {
+        fields: ["id", "blurhash", "width", "height"],
+      })
+    );
+
+    data.value.resolved_gallery.push({
+      blurhash: file.blurhash,
+      src: file.id,
+      width: file.width ?? 0,
+      height: file.height ?? 0,
+    });
+  }
 
   isLoading.value = false;
 }
