@@ -1,5 +1,8 @@
 <template>
-  <UHeader>
+  <UHeader
+    mode="drawer"
+    :menu="{ direction: 'right', handle: false, inset: true }"
+  >
     <template #title>
       <div class="flex gap-4">
         <NuxtImg

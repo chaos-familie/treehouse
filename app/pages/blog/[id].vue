@@ -6,12 +6,7 @@ canvas {
 </style>
 
 <template>
-  <div v-if="isLoading" class="flex flex-col self-center">
-    <div class="flex flex-row items-center gap-3">
-      <UIcon name="svg-spinners:ring-resize" class="size-12" />
-      <h3>Lade...</h3>
-    </div>
-  </div>
+  <LoadingComponent v-if="isLoading" />
   <Transition>
     <div v-if="!isLoading">
       <NuxtImg
@@ -51,7 +46,6 @@ import { readFile, readItem } from "@directus/sdk";
 import { ref } from "vue";
 
 const route = useRoute();
-const openerLoading = ref(true);
 const isLoading = ref(true);
 const data = ref<BlogScheme>();
 const openerImage = ref<CustomDirectusFile>();

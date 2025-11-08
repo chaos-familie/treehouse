@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-hidden rounded-xl" ref="mouseWindow">
+  <div class="overflow-hidden rounded-xl h-full" ref="mouseWindow">
     <div ref="treeMain" style="scale: 1" class="w-fit h-fit">
       <NuxtImg
         src="09c98409-b00d-468e-b7ac-fc5c7e242a7e"

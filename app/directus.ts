@@ -41,3 +41,32 @@ export type Author = {
   to: string;
   target: string;
 }[];
+
+export interface Member {
+  id: string;
+  display_name: string;
+  picture: string;
+  short_description: string;
+  description: string;
+  links: [
+    {
+      url: string;
+      type:
+        | "twitter"
+        | "twitch"
+        | "youtube"
+        | "tiktok"
+        | "instagram"
+        | "discord";
+    }
+  ];
+  gender: number;
+  relations: Relations;
+  tags: string[];
+}
+
+export type Relations = {
+  relation: { key: string; display_name?: string };
+  gender?: number;
+  relation_type: "parent" | "sibling" | "married" | "child" | "none";
+}[];

@@ -1,15 +1,13 @@
 <template>
-  <UToaster>
-    <UApp>
-      <UContainer class="gap-4 flex flex-col max-h-screen">
-        <MenuBarComponent />
+  <UApp>
+    <UContainer class="gap-4 flex flex-col justify-between lg:h-screen">
+      <MenuBarComponent />
 
-        <NuxtPage class="h-screen" />
+      <NuxtPage class="mb-auto" />
 
-        <FooterComponent />
-      </UContainer>
-    </UApp>
-  </UToaster>
+      <FooterComponent />
+    </UContainer>
+  </UApp>
 </template>
 
 <style>
