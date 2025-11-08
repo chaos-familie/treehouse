@@ -1,4 +1,13 @@
 <template>
+  <div
+    class="flex flex-col gap-1 max-w-full items-center text-2xl"
+    style="font-weight: bold"
+    v-if="data.length === 0"
+  >
+    <p>Hier gibt es nichts zusehen!</p>
+    <p>¯\_(ツ)_/¯</p>
+  </div>
+
   <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
     <TransitionGroup>
       <UBlogPost
