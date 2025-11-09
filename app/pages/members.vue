@@ -27,13 +27,14 @@
           <NuxtImg
             v-if="mem.picture"
             :src="mem.picture"
-            style="border-radius: 100%"
+            style="border-radius: 100%; width: 64px"
             format="webp"
-            :width="64"
+            :width="80"
+            :height="80"
           />
           <UAvatar
             :alt="mem.display_name"
-            style="width: 64px; height: 64px"
+            style="width: 80px; height: 80px"
             v-else
           /></div
       ></template>
@@ -45,6 +46,7 @@
           style="border-radius: 100%"
           format="webp"
           :width="80"
+          :height="80"
         />
         <UAvatar
           :alt="mem.display_name"

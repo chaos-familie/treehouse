@@ -21,6 +21,7 @@ canvas {
             :src="data!.picture"
             style="border-radius: 100%; height: 128px"
             format="webp"
+            :height="128"
             :width="128"
           />
           <UAvatar
@@ -197,7 +198,7 @@ canvas {
         </div>
       </UCard>
 
-      <UCard variant="subtle" v-if="data?.gallery && data?.gallery.length >= 0">
+      <UCard variant="subtle" v-if="data?.gallery && data?.gallery.length >= 1">
         <template #header>
           <h3 style="margin: 0">Galerie</h3>
         </template>
