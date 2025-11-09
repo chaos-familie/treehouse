@@ -5,8 +5,6 @@ export default defineNuxtConfig({
   modules: ["@nuxt/image", "@nuxt/ui"],
   css: ["~/assets/main.css"],
   app: {
-    pageTransition: { name: "page", mode: "out-in" },
-    viewTransition: "always",
     head: {
       link: [
         {

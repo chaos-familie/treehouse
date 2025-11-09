@@ -2,7 +2,7 @@
   <div
     class="flex flex-col gap-1 max-w-full items-center text-2xl"
     style="font-weight: bold"
-    v-if="data.length === 0"
+    v-if="data.length === 0 && !loading"
   >
     <p>Hier gibt es nichts zusehen!</p>
     <p>¯\_(ツ)_/¯</p>
@@ -70,8 +70,11 @@ const data = ref<
     authors: Author;
   }[]
 >([]);
+const loading = ref(true);
 
 async function init() {
+  loading.value = true;
+
   const entries = await Directus.request<BlogScheme[]>(
     readItems("blog", {
       sort: ["-date_created"],
@@ -118,6 +121,8 @@ async function init() {
 
     data.value.push({ blog: entry, image: image, authors: authors });
   }
+
+  loading.value = false;
 }
 
 init();

@@ -1,6 +1,6 @@
 <template>
   <UApp>
-    <UContainer class="gap-4 flex flex-col justify-between lg:h-screen">
+    <UContainer class="gap-4 flex flex-col justify-between">
       <MenuBarComponent />
 
       <NuxtPage class="mb-auto" />
