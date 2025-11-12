@@ -44,13 +44,13 @@ const items = computed<NavigationMenuItem[]>(() => [
     label: "Blog",
     to: "/blog",
     active: route.path.startsWith("/blog"),
-  },
+  } /*
   {
     icon: "lucide:tree-deciduous",
     label: "Stammbaum",
     to: "/family-tree",
     active: route.path.startsWith("/family-tree"),
-  },
+  },*/,
   {
     icon: "lucide:users",
     label: "Mitglieder",
