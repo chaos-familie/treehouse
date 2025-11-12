@@ -1,6 +1,6 @@
 <style>
 .img {
-  border-radius: 12px;
+  border-radius: 15px;
 }
 
 .link {
@@ -68,12 +68,7 @@
 
 <script setup lang="ts">
 import BlurHashCanvas from "@/components/BlurHashCanvas.vue";
-import {
-  Directus,
-  type BlogScheme,
-  type CustomDirectusFile,
-  type DirectusRestError,
-} from "~/directus";
+import { Directus, type BlogScheme, type CustomDirectusFile } from "~/directus";
 import { readFile, readItem, readUser, type DirectusUser } from "@directus/sdk";
 import { ref } from "vue";
 
@@ -86,51 +81,45 @@ const last_edited = ref<string>("");
 const openerImage = ref<CustomDirectusFile>();
 
 async function init() {
-  try {
-    data.value = await Directus.request<BlogScheme>(
-      readItem("blog", Number(route.params["id"]))
-    );
+  data.value = await Directus.request<BlogScheme>(
+    readItem("blog", Number(route.params["id"]))
+  );
 
-    openerImage.value = await Directus.request<CustomDirectusFile>(
-      readFile(data.value.opener_image)
-    );
+  openerImage.value = await Directus.request<CustomDirectusFile>(
+    readFile(data.value.opener_image)
+  );
 
-    author.value = await Directus.request<DirectusUser>(
-      readUser(data.value.user_created, { fields: ["first_name", "avatar"] })
-    );
+  author.value = await Directus.request<DirectusUser>(
+    readUser(data.value.user_created, { fields: ["first_name", "avatar"] })
+  );
 
-    html.value = data!.value.post;
+  html.value = data!.value.post;
 
-    html.value = html.value
-      .replace(/<img/g, '<img class="img"')
-      .replace(/<a/g, '<a class="link"');
+  html.value = html.value
+    .replace(/<img/g, '<img class="img"')
+    .replace(/<a/g, '<a class="link"');
 
-    const updated = new Date(data.value.date_updated ?? "");
-    const created = new Date(data.value.date_created ?? "");
+  const updated = new Date(data.value.date_updated ?? "");
+  const created = new Date(data.value.date_created ?? "");
 
-    const f = new Intl.DateTimeFormat("de", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      hour12: false,
-      minute: "2-digit",
-      timeZone: "Europe/Berlin",
-      timeZoneName: "short",
-    });
+  const f = new Intl.DateTimeFormat("de", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    hour12: false,
+    minute: "2-digit",
+    timeZone: "Europe/Berlin",
+    timeZoneName: "short",
+  });
 
-    if (data.value.date_updated && updated > created) {
-      last_edited.value = f.format(updated);
-    } else {
-      last_edited.value = f.format(created);
-    }
-
-    isLoading.value = false;
-  } catch (err) {
-    const error = err as DirectusRestError;
-
-    console.error(error);
+  if (data.value.date_updated && updated > created) {
+    last_edited.value = f.format(updated);
+  } else {
+    last_edited.value = f.format(created);
   }
+
+  isLoading.value = false;
 }
 
 init();

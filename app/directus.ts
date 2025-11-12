@@ -1,4 +1,9 @@
-import { createDirectus, rest, type DirectusFile } from "@directus/sdk";
+import {
+  createDirectus,
+  rest,
+  type DirectusFile,
+  type DirectusUser,
+} from "@directus/sdk";
 
 export const ASSETS_URL = "https://cms.chaos-familie.de/assets/";
 export const Directus = createDirectus("https://cms.chaos-familie.de").with(
@@ -17,6 +22,12 @@ export interface DirectusRestError {
   };
 }
 
+export interface BlogPost {
+  blog: BlogScheme;
+  image: CustomDirectusFile;
+  authors: Author;
+}
+
 export interface BlogScheme {
   id: number;
   user_created: string;
@@ -33,6 +44,10 @@ export interface BlogScheme {
 
 export interface CustomDirectusFile extends DirectusFile {
   blurhash: string;
+}
+
+export interface CustomDirectusUser extends DirectusUser {
+  member_id: string;
 }
 
 export type Author = {

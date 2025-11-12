@@ -1,12 +1,22 @@
 <template>
   <UFooter>
     <template #left>
-      <p class="text-muted text-sm">Copyright © {{ new Date().getFullYear() }}</p>
+      <p class="text-muted text-sm">
+        Copyright © {{ new Date().getFullYear() }}
+      </p>
     </template>
 
     <UNavigationMenu :items="items" variant="link" />
 
     <template #right>
+      <UButton
+        icon="fa7-brands:youtube"
+        color="neutral"
+        variant="ghost"
+        to="https://youtube.com/@chaos-familie-de"
+        target="_blank"
+        aria-label="YouTube"
+      />
       <UButton
         icon="fa7-brands:github"
         color="neutral"
@@ -20,16 +30,16 @@
 </template>
 
 <script setup lang="ts">
-import type { NavigationMenuItem } from '@nuxt/ui'
+import type { NavigationMenuItem } from "@nuxt/ui";
 
 const items: NavigationMenuItem[] = [
   {
-    label: 'Datenschutz',
-    to: '/legal/privacy',
+    label: "Datenschutz",
+    to: "/legal/privacy",
   },
   {
-    label: 'Impressum',
-    to: '/legal/impress',
+    label: "Impressum",
+    to: "/legal/impress",
   },
-]
+];
 </script>

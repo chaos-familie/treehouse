@@ -6,7 +6,14 @@ canvas {
 </style>
 
 <template>
-  <LoadingComponent v-if="isLoading" />
+  <LoadingComponent v-if="isLoading && !notFound" />
+
+  <div v-else-if="notFound">
+    <div class="flex flex-col gap-2 min-w-full text-center">
+      <h1>Mitglied nicht Gefunden!</h1>
+      <p>¯\_(ツ)_/¯</p>
+    </div>
+  </div>
 
   <div v-else>
     <div class="flex flex-col gap-8">
@@ -259,6 +266,7 @@ import {
   type Relations,
 } from "~/directus";
 
+const notFound = ref(false);
 const isLoading = ref(true);
 const data = ref<Member>();
 const relations = ref<Relations>();
@@ -268,8 +276,16 @@ const route = useRoute();
 async function init() {
   const key = route.params.id as string;
 
-  data.value = await Directus.request<Member>(readItem("members", key));
-  relations.value = data.value.relations ?? [];
+  try {
+    data.value = await Directus.request<Member>(readItem("members", key));
+  } catch (err) {}
+
+  if (!data.value) {
+    notFound.value = true;
+    return;
+  }
+
+  relations.value = data.value!.relations ?? [];
 
   for (const relation of relations.value) {
     const member = await Directus.request<Member>(
@@ -285,7 +301,7 @@ async function init() {
     readItems("members", {
       filter: {
         id: {
-          _neq: data.value.id,
+          _neq: data.value!.id,
         },
       },
       fields: ["id", "display_name", "relations", "gender"],
