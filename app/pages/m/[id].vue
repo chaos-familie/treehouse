@@ -211,13 +211,16 @@ canvas {
         </template>
 
         <UCarousel
+          dots
           v-slot="{ item }"
           :items="data.resolved_gallery"
-          :ui="{ item: 'lg:basis-1/3 md:basis-1/2' }"
+          :ui="{
+            item: 'max-w-fit self-center',
+          }"
           class="w-full mx-auto"
+          style="margin-bottom: 30px"
           loop
-          auto-height
-          :autoplay="{ delay: 4000 }"
+          :autoplay="{ delay: 2000 }"
         >
           <NuxtImg
             format="webp"
@@ -231,7 +234,7 @@ canvas {
                 v-if="isLoaded"
                 v-bind="imgAttrs"
                 :src="src"
-                class="w-full h-full"
+                class="max-h-72"
               />
 
               <BlurHashCanvas
@@ -258,7 +261,7 @@ canvas {
 
 <script lang="ts" setup>
 import LoadingComponent from "@/components/LoadingComponent.vue";
-import { readFile, readFiles, readItem, readItems } from "@directus/sdk";
+import { readFile, readItem, readItems } from "@directus/sdk";
 import {
   Directus,
   type CustomDirectusFile,

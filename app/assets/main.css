@@ -58,3 +58,13 @@ h6 {
   font-weight: bold;
   display: block;
 }
+
+.img {
+  border-radius: 15px;
+}
+
+.link {
+  font-weight: bold;
+  color: var(--ui-primary);
+  text-decoration: underline;
+}

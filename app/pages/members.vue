@@ -15,10 +15,14 @@
       </template>
 
       <template #footer>
-        <div class="flex flex-row gap-2">
-          <UBadge v-for="tag of mem.tags" :key="tag" variant="soft">{{
-            tag
-          }}</UBadge>
+        <div class="grid grid-rows-3 grid-cols-2 gap-2">
+          <UBadge
+            v-for="tag of mem.tags"
+            :key="tag"
+            class="row-auto min-w-fit"
+            variant="soft"
+            >{{ tag }}</UBadge
+          >
         </div>
       </template>
 

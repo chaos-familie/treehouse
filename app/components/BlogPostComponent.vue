@@ -63,7 +63,7 @@ async function init() {
       to: "/m/" + author.member_id,
     },
   ];
-
+  /*
   if (post!.user_updated != post!.user_created) {
     const author2 = await Directus.request<CustomDirectusUser>(
       readUser(post!.user_updated)
@@ -76,7 +76,7 @@ async function init() {
       target: "_self",
       to: "/m/" + author2.member_id,
     });
-  }
+  }*/
 
   data.value = { blog: post!, image: image, authors: authors };
 

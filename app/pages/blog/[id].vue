@@ -1,15 +1,3 @@
-<style>
-.img {
-  border-radius: 15px;
-}
-
-.link {
-  font-weight: bold;
-  color: var(--ui-primary);
-  text-decoration: underline;
-}
-</style>
-
 <template>
   <LoadingComponent v-if="isLoading" />
   <Transition>
