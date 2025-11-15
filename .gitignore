@@ -24,5 +24,3 @@ logs
 !.env.example
 
 *.blend1
-
-/public/AdventCalendar/Texture.png
