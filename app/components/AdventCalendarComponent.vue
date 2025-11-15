@@ -1,12 +1,12 @@
 <template>
-  <TresPerspectiveCamera :position="[5, 0, 0]" :look-at="[0, 0, 0]" />
+  <TresPerspectiveCamera :position="cameraPosition" :look-at="[0, 0, 0]" />
   <primitive
-    :position="[0, 0, 0]"
+    :position="[0, 0.35, 0]"
     v-if="state"
     :object="state?.scene"
     ref="calendarRef"
   />
-  <TresAmbientLight :position="[5, 0, 0]" :intensity="1.1" />
+  <TresAmbientLight :position="[6, 0, 0]" :intensity="2.15" />
 </template>
 
 <script lang="ts" setup>
@@ -14,7 +14,7 @@ import { useGLTF } from "@tresjs/cientos";
 import { useTresContext } from "@tresjs/core";
 import * as THREE from "three";
 import { ref } from "vue";
-import { useMouse } from "@vueuse/core";
+import { useMouse, useWindowSize } from "@vueuse/core";
 
 const { state } = useGLTF("/AdventCalendar/Calendar.glb");
 const calendarRef = ref<THREE.Object3D>();
@@ -27,11 +27,26 @@ const intersectionPlane = new THREE.Plane();
 const mousePosition = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
 
+const cameraPosition = ref<THREE.Vector3>(new THREE.Vector3(6, 0, 0));
+
 const multiplicator = 0.65;
 
 const { sizes, camera, scene } = useTresContext();
 const { onBeforeRender } = useLoop();
 const { x, y } = useMouse();
+const windowSize = useWindowSize();
+
+watch(windowSize.width, setCameraPosition);
+
+function setCameraPosition() {
+  if (windowSize.width.value < 900) {
+    cameraPosition.value = new THREE.Vector3(8, 0, 0);
+  } else {
+    cameraPosition.value = new THREE.Vector3(6, 0, 0);
+  }
+}
+
+setCameraPosition();
 
 watch([x, y], () => {
   setMousePosition(
@@ -54,8 +69,8 @@ function setMousePosition(event: PointerEvent) {
 
   target.position.set(
     2,
-    (-intersectionPoint.y + 4.5) * multiplicator,
-    (intersectionPoint.z + 0.15) * multiplicator
+    (-intersectionPoint.y + 5.5) * multiplicator,
+    (intersectionPoint.z + 0.25) * multiplicator
   );
 }
 

@@ -1,5 +1,14 @@
+<style>
+.footer_fixed {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  left: 0px;
+}
+</style>
+
 <template>
-  <UFooter>
+  <UFooter :class="{ footer_fixed: fixed }">
     <template #left>
       <p class="text-muted text-sm">
         Copyright © {{ new Date().getFullYear() }}
@@ -31,6 +40,17 @@
 
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
+
+const fixed = ref(false);
+const router = useRouter();
+
+function checkRoute() {
+  fixed.value = router.currentRoute.value.path === "/advent-calendar";
+}
+
+checkRoute();
+
+router.afterEach(checkRoute);
 
 const items: NavigationMenuItem[] = [
   {

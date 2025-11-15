@@ -1,7 +1,7 @@
 <template>
   <UHeader
     mode="drawer"
-    class="rounded-xl"
+    style="position: fixed; width: 100%; left: 0px; top: 0px"
     :menu="{ direction: 'right', handle: false, inset: true }"
   >
     <template #title>

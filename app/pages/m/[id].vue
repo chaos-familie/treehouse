@@ -244,7 +244,7 @@ canvas {
                 :width="item.width"
                 :height="item.height"
                 class="max-h-72 rounded-lg"
-                v-else
+                v-else-if="item.blurhash"
               />
             </TransitionGroup>
           </NuxtImg>

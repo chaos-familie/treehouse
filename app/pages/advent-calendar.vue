@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { TresCanvas } from "@tresjs/core";
 import AdventCalendarComponent from "~/components/AdventCalendarComponent.vue";
 </script>
 
@@ -7,7 +8,7 @@ import AdventCalendarComponent from "~/components/AdventCalendarComponent.vue";
     alpha
     clear-color="#00000000"
     antialias
-    power-preference="high-performance"
+    power-preference="low-power"
     :shadows="false"
     window-size
   >

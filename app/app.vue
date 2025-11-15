@@ -50,7 +50,7 @@
     <UContainer class="gap-4 flex flex-col justify-between" v-else>
       <MenuBarComponent />
 
-      <NuxtPage class="mb-auto" />
+      <NuxtPage style="margin-top: 80px" />
 
       <FooterComponent />
     </UContainer>
@@ -59,10 +59,10 @@
 
 <script lang="ts" setup>
 const router = useRouter();
-const showCookieBanner = ref(true);
+const showCookieBanner = ref(false);
 
 router.afterEach((from, to) => {
-  pageCheck();
+  //pageCheck();
 });
 
 function pageCheck() {
@@ -73,7 +73,7 @@ function pageCheck() {
   }
 }
 
-pageCheck();
+//pageCheck();
 </script>
 
 <style>

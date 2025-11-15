@@ -1,5 +1,5 @@
 <template>
-  <LoadingComponent v-if="isLoading" />
+  <LoadingComponent v-if="isLoading" style="margin-top: 80px" />
   <Transition>
     <div v-if="!isLoading">
       <NuxtImg
@@ -8,7 +8,7 @@
         provider="directus"
         v-slot="{ src, isLoaded, imgAttrs }"
         :custom="true"
-        style="object-fit: contain; max-height: 40vh"
+        style="object-fit: contain; max-height: 40vh; margin-top: 80px"
         class="self-center w-full"
       >
         <TransitionGroup :duration="2000" persisted>
