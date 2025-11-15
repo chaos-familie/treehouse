@@ -15,11 +15,11 @@
       </template>
 
       <template #footer>
-        <div class="grid grid-rows-3 grid-cols-2 gap-2">
+        <div class="grid grid-rows-3 lg:grid-cols-2 grid-cols-3 gap-2">
           <UBadge
             v-for="tag of mem.tags"
             :key="tag"
-            class="row-auto min-w-fit"
+            class="row-auto cols-auto min-w-fit"
             variant="soft"
             >{{ tag }}</UBadge
           >
@@ -27,7 +27,7 @@
       </template>
 
       <template #header>
-        <div class="md:hidden">
+        <div class="lg:hidden">
           <NuxtImg
             v-if="mem.picture"
             :src="mem.picture"
@@ -43,7 +43,7 @@
           /></div
       ></template>
 
-      <div class="hidden md:block justify-self-end">
+      <div class="hidden lg:block justify-self-end">
         <NuxtImg
           v-if="mem.picture"
           :src="mem.picture"

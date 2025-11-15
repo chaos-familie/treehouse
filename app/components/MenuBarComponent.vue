@@ -1,6 +1,7 @@
 <template>
   <UHeader
     mode="drawer"
+    class="rounded-xl"
     :menu="{ direction: 'right', handle: false, inset: true }"
   >
     <template #title>
@@ -50,13 +51,19 @@ const items = computed<NavigationMenuItem[]>(() => [
     label: "Blog",
     to: "/blog",
     active: route.path.startsWith("/blog"),
-  } /*
+  },
+  {
+    icon: "lucide:images",
+    label: "Galerie",
+    to: "/gallery",
+    active: route.path.startsWith("/gallery"),
+  },
   {
     icon: "lucide:tree-deciduous",
     label: "Stammbaum",
     to: "/family-tree",
     active: route.path.startsWith("/family-tree"),
-  },*/,
+  },
   {
     icon: "lucide:users",
     label: "Mitglieder",

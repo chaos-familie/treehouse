@@ -33,12 +33,7 @@ const { sizes, camera, scene } = useTresContext();
 const { onBeforeRender } = useLoop();
 const { x, y } = useMouse();
 
-watch(x, () => {
-  setMousePosition(
-    new PointerEvent("pointermove", { clientX: x.value, clientY: y.value })
-  );
-});
-watch(y, () => {
+watch([x, y], () => {
   setMousePosition(
     new PointerEvent("pointermove", { clientX: x.value, clientY: y.value })
   );

@@ -35,6 +35,11 @@ export default defineNuxtConfig({
       title: "Chaos Familie",
     },
   },
+  colorMode: {
+    storage: "localStorage",
+    storageKey: "color-mode",
+    fallback: "dark",
+  },
   image: {
     provider: "directus",
     format: ["webp"],

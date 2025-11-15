@@ -211,20 +211,22 @@ canvas {
         </template>
 
         <UCarousel
+          :arrows="showArrows"
           dots
           v-slot="{ item }"
           :items="data.resolved_gallery"
           :ui="{
             item: 'max-w-fit self-center',
           }"
-          class="w-full mx-auto"
-          style="margin-bottom: 30px"
+          class="mx-auto w-fit"
+          style="margin: 0 30px 30px 30px"
           loop
           :autoplay="{ delay: 2000 }"
         >
           <NuxtImg
             format="webp"
             :src="item.src"
+            :height="item.height >= 1600 ? 1600 : item.height"
             provider="directus"
             v-slot="{ src, isLoaded, imgAttrs }"
             :custom="true"
@@ -234,13 +236,14 @@ canvas {
                 v-if="isLoaded"
                 v-bind="imgAttrs"
                 :src="src"
-                class="max-h-72"
+                class="max-h-72 rounded-lg"
               />
 
               <BlurHashCanvas
                 :hash="item.blurhash"
                 :width="item.width"
                 :height="item.height"
+                class="max-h-72 rounded-lg"
                 v-else
               />
             </TransitionGroup>
@@ -262,6 +265,7 @@ canvas {
 <script lang="ts" setup>
 import LoadingComponent from "@/components/LoadingComponent.vue";
 import { readFile, readItem, readItems } from "@directus/sdk";
+import { useWindowSize } from "@vueuse/core";
 import {
   Directus,
   type CustomDirectusFile,
@@ -269,12 +273,23 @@ import {
   type Relations,
 } from "~/directus";
 
+const showArrows = ref(false);
 const notFound = ref(false);
 const isLoading = ref(true);
 const data = ref<Member>();
 const relations = ref<Relations>();
 
 const route = useRoute();
+
+const { width, height } = useWindowSize();
+
+watch([width, height], checkScreenSize);
+
+function checkScreenSize() {
+  showArrows.value = width.value! >= 1024;
+}
+
+checkScreenSize();
 
 async function init() {
   const key = route.params.id as string;

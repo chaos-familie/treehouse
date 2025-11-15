@@ -79,8 +79,6 @@ async function init() {
   }*/
 
   data.value = { blog: post!, image: image, authors: authors };
-
-  console.log(data.value);
 }
 
 init();
