@@ -6,7 +6,7 @@
     :object="state?.scene"
     ref="calendarRef"
   />
-  <TresAmbientLight :position="[6, 0, 0]" :intensity="2.15" />
+  <TresAmbientLight :position="[6, 0, 0]" :intensity="1" />
 </template>
 
 <script lang="ts" setup>
@@ -16,7 +16,7 @@ import * as THREE from "three";
 import { ref } from "vue";
 import { useMouse, useWindowSize } from "@vueuse/core";
 
-const { state } = useGLTF("/AdventCalendar/Calendar.glb");
+const { state, isLoading } = useGLTF("/AdventCalendar/Calendar.glb");
 const calendarRef = ref<THREE.Object3D>();
 
 const target = new THREE.Object3D();
@@ -69,8 +69,8 @@ function setMousePosition(event: PointerEvent) {
 
   target.position.set(
     2,
-    (-intersectionPoint.y + 5.5) * multiplicator,
-    (intersectionPoint.z + 0.25) * multiplicator
+    (-intersectionPoint.y + 5.75) * multiplicator,
+    (intersectionPoint.z + 0.5) * multiplicator
   );
 }
 
@@ -80,6 +80,30 @@ onBeforeRender(() => {
   const object = calendarRef.value;
 
   object.lookAt(target.position);
-  object.rotateY(-1.5);
+  object.rotateY(-1.35);
+});
+
+watch(isLoading, () => {
+  const video = document.createElement("video");
+
+  video.playsInline = true;
+  video.loop = true;
+  video.src = "/AdventCalendar/Texture.mp4";
+
+  video.play().catch((error) => {
+    console.error("Video Playback Error:", error);
+  });
+
+  const texture = new THREE.VideoTexture(video);
+
+  state.value?.scene.traverse((node) => {
+    if (node.type != "Mesh") return;
+
+    const mesh = node as THREE.Mesh;
+    const material = mesh.material as THREE.MeshStandardMaterial;
+
+    material.map = texture;
+    material.needsUpdate = true;
+  });
 });
 </script>

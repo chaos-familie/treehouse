@@ -6,7 +6,7 @@ import AdventCalendarComponent from "~/components/AdventCalendarComponent.vue";
 <template>
   <TresCanvas
     alpha
-    clear-color="#00000000"
+    :clear-alpha="0"
     antialias
     power-preference="low-power"
     :shadows="false"
