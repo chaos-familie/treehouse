@@ -6,7 +6,7 @@
     :object="state?.scene"
     ref="calendarRef"
   />
-  <TresAmbientLight :position="[6, 0, 0]" :intensity="1" />
+  <TresAmbientLight :position="[6, 0, 0]" :intensity="3.5" />
 </template>
 
 <script lang="ts" setup>
@@ -88,13 +88,16 @@ watch(isLoading, () => {
 
   video.playsInline = true;
   video.loop = true;
-  video.src = "/AdventCalendar/Texture.mp4";
+  video.crossOrigin = "anonymous";
+  video.src =
+    "https://cms.chaos-familie.de/assets/0c815ad5-d890-4bf9-a7ff-69cc9c2e6442";
 
   video.play().catch((error) => {
     console.error("Video Playback Error:", error);
   });
 
   const texture = new THREE.VideoTexture(video);
+  texture.colorSpace = THREE.SRGBColorSpace;
 
   state.value?.scene.traverse((node) => {
     if (node.type != "Mesh") return;
@@ -102,6 +105,7 @@ watch(isLoading, () => {
     const mesh = node as THREE.Mesh;
     const material = mesh.material as THREE.MeshStandardMaterial;
 
+    material.toneMapped = false;
     material.map = texture;
     material.needsUpdate = true;
   });

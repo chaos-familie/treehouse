@@ -8,7 +8,7 @@ import AdventCalendarComponent from "~/components/AdventCalendarComponent.vue";
     alpha
     :clear-alpha="0"
     antialias
-    power-preference="low-power"
+    power-preference="high-performance"
     :shadows="false"
     window-size
   >
