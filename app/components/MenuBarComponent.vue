@@ -56,12 +56,14 @@ const items = computed<NavigationMenuItem[]>(() => [
     icon: "lucide:images",
     label: "Galerie",
     to: "/gallery",
+    disabled: true,
     active: route.path.startsWith("/gallery"),
   },
   {
     icon: "lucide:tree-deciduous",
     label: "Stammbaum",
     to: "/family-tree",
+    disabled: true,
     active: route.path.startsWith("/family-tree"),
   },
   {

@@ -14,7 +14,7 @@ import { useGLTF } from "@tresjs/cientos";
 import { useTresContext } from "@tresjs/core";
 import * as THREE from "three";
 import { ref } from "vue";
-import { useMouse, useWindowSize } from "@vueuse/core";
+import { useMouse, useMousePressed, useWindowSize } from "@vueuse/core";
 
 const { state, isLoading } = useGLTF("/AdventCalendar/Calendar.glb");
 const calendarRef = ref<THREE.Object3D>();
@@ -31,9 +31,10 @@ const cameraPosition = ref<THREE.Vector3>(new THREE.Vector3(6, 0, 0));
 
 const multiplicator = 0.65;
 
-const { sizes, camera, scene } = useTresContext();
+const { camera, scene, renderer } = useTresContext();
 const { onBeforeRender } = useLoop();
 const { x, y } = useMouse();
+const { pressed } = useMousePressed();
 const windowSize = useWindowSize();
 
 watch(windowSize.width, setCameraPosition);
@@ -48,6 +49,32 @@ function setCameraPosition() {
 
 setCameraPosition();
 
+watch(pressed, (isPressed) => {
+  if (!isPressed) return;
+
+  scene.value.traverse((node) => {
+    if (node.type != "Mesh") return;
+    if (!node.name.startsWith("_Door")) return;
+
+    const today = new Date(Date.now());
+    const thisDay = new Date(2025, 10, Number(node.name.replace("_Door", "")));
+
+    node.parent?.updateMatrix();
+    raycaster.setFromCamera(mousePosition, camera.activeCamera.value);
+
+    const intersection2 = raycaster.intersectObject(
+      node as THREE.Object3D,
+      false
+    );
+
+    if (intersection2.length > 0) {
+      if (today.getTime() >= thisDay.getTime()) {
+        console.log("TS");
+      }
+    }
+  });
+});
+
 watch([x, y], () => {
   setMousePosition(
     new PointerEvent("pointermove", { clientX: x.value, clientY: y.value })
@@ -55,8 +82,10 @@ watch([x, y], () => {
 });
 
 function setMousePosition(event: PointerEvent) {
-  mousePosition.x = (event.clientX / sizes.width.value) * 2 - 1;
-  mousePosition.y = (event.clientY / sizes.height.value) * 2 + 1;
+  const rect = renderer.instance.domElement.getBoundingClientRect();
+
+  mousePosition.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+  mousePosition.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
   planeNormal.copy(camera.activeCamera.value.position).normalize();
   intersectionPlane.setFromNormalAndCoplanarPoint(
@@ -69,9 +98,34 @@ function setMousePosition(event: PointerEvent) {
 
   target.position.set(
     2,
-    (-intersectionPoint.y + 5.75) * multiplicator,
-    (intersectionPoint.z + 0.5) * multiplicator
+    (intersectionPoint.y + 0) * multiplicator,
+    (intersectionPoint.z + 0.75) * multiplicator
   );
+
+  let cursor = false;
+
+  scene.value.traverse((node) => {
+    if (node.type != "Mesh") return;
+    if (!node.name.startsWith("_Door")) return;
+
+    node.parent?.updateMatrix();
+    raycaster.setFromCamera(mousePosition, camera.activeCamera.value);
+
+    const intersection2 = raycaster.intersectObject(
+      node as THREE.Object3D,
+      false
+    );
+
+    if (intersection2.length > 0) {
+      cursor = true;
+    }
+  });
+
+  if (cursor) {
+    renderer.instance.domElement.style.cursor = "pointer";
+  } else {
+    renderer.instance.domElement.style.cursor = "default";
+  }
 }
 
 onBeforeRender(() => {
@@ -97,17 +151,24 @@ watch(isLoading, () => {
   });
 
   const texture = new THREE.VideoTexture(video);
+  texture.flipY = false;
   texture.colorSpace = THREE.SRGBColorSpace;
 
   state.value?.scene.traverse((node) => {
     if (node.type != "Mesh") return;
 
-    const mesh = node as THREE.Mesh;
-    const material = mesh.material as THREE.MeshStandardMaterial;
+    if (node.name.startsWith("_Door")) {
+      const mesh = node as THREE.Mesh;
 
-    material.toneMapped = false;
-    material.map = texture;
-    material.needsUpdate = true;
+      mesh.visible = false;
+    } else {
+      const mesh = node as THREE.Mesh;
+      const material = mesh.material as THREE.MeshStandardMaterial;
+
+      material.toneMapped = false;
+      material.map = texture;
+      material.needsUpdate = true;
+    }
   });
 });
 </script>
