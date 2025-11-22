@@ -6,7 +6,7 @@
     :object="state?.scene"
     ref="calendarRef"
   />
-  <TresAmbientLight :position="[6, 0, 0]" :intensity="3.5" />
+  <TresAmbientLight :position="[6, 0, 0]" :intensity="1.85" />
 </template>
 
 <script lang="ts" setup>
@@ -15,11 +15,17 @@ import { useTresContext } from "@tresjs/core";
 import * as THREE from "three";
 import { ref } from "vue";
 import { useMouse, useMousePressed, useWindowSize } from "@vueuse/core";
+import { Directus } from "~/directus";
+import { readItems } from "@directus/sdk";
+import { useAdventStore } from "../stores/advent-store";
+import { usePinch } from "@vueuse/gesture";
 
 const { state, isLoading } = useGLTF("/AdventCalendar/Calendar.glb");
 const calendarRef = ref<THREE.Object3D>();
 
 const target = new THREE.Object3D();
+
+target.position.set(1.65, 0, 0.35);
 
 const intersectionPoint = new THREE.Vector3();
 const planeNormal = new THREE.Vector3();
@@ -36,6 +42,21 @@ const { onBeforeRender } = useLoop();
 const { x, y } = useMouse();
 const { pressed } = useMousePressed();
 const windowSize = useWindowSize();
+const store = useAdventStore();
+
+let isPinch = false;
+
+usePinch(
+  (e) => {
+    isPinch = e.pinching;
+
+    if (!e.pinching) return;
+
+    const value = e.values[0] / 400;
+    calendarRef.value?.scale.setScalar(1 + value);
+  },
+  { domTarget: renderer.instance.domElement, triggerAllEvents: false }
+);
 
 watch(windowSize.width, setCameraPosition);
 
@@ -51,13 +72,16 @@ setCameraPosition();
 
 watch(pressed, (isPressed) => {
   if (!isPressed) return;
+  if (isPinch) return;
+  if (store.isOpen) return;
 
-  scene.value.traverse((node) => {
+  scene.value.traverse(async (node) => {
     if (node.type != "Mesh") return;
     if (!node.name.startsWith("_Door")) return;
 
+    const door = Number(node.name.replace("_Door", ""));
     const today = new Date(Date.now());
-    const thisDay = new Date(2025, 10, Number(node.name.replace("_Door", "")));
+    const thisDay = new Date(2025, 11, door);
 
     node.parent?.updateMatrix();
     raycaster.setFromCamera(mousePosition, camera.activeCamera.value);
@@ -69,7 +93,19 @@ watch(pressed, (isPressed) => {
 
     if (intersection2.length > 0) {
       if (today.getTime() >= thisDay.getTime()) {
-        console.log("TS");
+        const item = await Directus.request<{}[]>(
+          readItems("advent_calendar", {
+            limit: 1,
+            filter: {
+              "day(date)": { _eq: door },
+            },
+          })
+        );
+
+        if (!item[0]) return;
+
+        store.setData(item[0]);
+        store.setOpen(true);
       }
     }
   });
@@ -138,22 +174,6 @@ onBeforeRender(() => {
 });
 
 watch(isLoading, () => {
-  const video = document.createElement("video");
-
-  video.playsInline = true;
-  video.loop = true;
-  video.crossOrigin = "anonymous";
-  video.src =
-    "https://cms.chaos-familie.de/assets/0c815ad5-d890-4bf9-a7ff-69cc9c2e6442";
-
-  video.play().catch((error) => {
-    console.error("Video Playback Error:", error);
-  });
-
-  const texture = new THREE.VideoTexture(video);
-  texture.flipY = false;
-  texture.colorSpace = THREE.SRGBColorSpace;
-
   state.value?.scene.traverse((node) => {
     if (node.type != "Mesh") return;
 
@@ -161,13 +181,6 @@ watch(isLoading, () => {
       const mesh = node as THREE.Mesh;
 
       mesh.visible = false;
-    } else {
-      const mesh = node as THREE.Mesh;
-      const material = mesh.material as THREE.MeshStandardMaterial;
-
-      material.toneMapped = false;
-      material.map = texture;
-      material.needsUpdate = true;
     }
   });
 });
