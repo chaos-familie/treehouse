@@ -62,7 +62,7 @@ export default defineNuxtConfig({
     blockAiBots: true,
     blockNonSeoBots: true,
     credits: true,
-    robotsTxt: true,
+    metaTag: true,
   },
   ogImage: {
     zeroRuntime: true,
