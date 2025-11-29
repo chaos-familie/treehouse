@@ -2,8 +2,14 @@
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
-  modules: ["@nuxt/image", "@nuxt/ui", "@tresjs/nuxt", "@pinia/nuxt"],
-  css: ["~/assets/main.css"],
+  modules: [
+    "@nuxt/image",
+    "@nuxt/ui",
+    "@tresjs/nuxt",
+    "@pinia/nuxt",
+    "pinia-plugin-persistedstate/nuxt",
+  ],
+  css: ["~/assets/main.css", "~/assets/snow.scss"],
   app: {
     head: {
       link: [
@@ -40,6 +46,7 @@ export default defineNuxtConfig({
     storageKey: "color-mode",
     fallback: "dark",
   },
+  piniaPluginPersistedstate: { storage: "localStorage" },
   image: {
     provider: "directus",
     format: ["webp"],

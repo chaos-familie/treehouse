@@ -85,6 +85,7 @@ export interface Member {
     width: number;
     height: number;
   }[];
+  virtual: boolean;
 }
 
 export type Relations = {

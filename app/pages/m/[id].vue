@@ -295,7 +295,9 @@ async function init() {
   const key = route.params.id as string;
 
   try {
-    data.value = await Directus.request<Member>(readItem("members", key));
+    data.value = await Directus.request<Member>(
+      readItem("members", key, { filter: { virtual: { _eq: false } } })
+    );
   } catch (err) {}
 
   if (!data.value) {

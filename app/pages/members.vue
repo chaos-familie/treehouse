@@ -81,6 +81,11 @@ async function init() {
     readItems("members", {
       sort: "display_name",
       fields: ["id", "display_name", "picture", "short_description", "tags"],
+      filter: {
+        virtual: {
+          _eq: false,
+        },
+      },
     })
   );
 }

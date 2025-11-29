@@ -38,10 +38,7 @@
           </p>
 
           <div class="flex flex-row gap-4">
-            <UButton @click="showCookieBanner = true">Alle akzeptieren</UButton>
-            <UButton @click="showCookieBanner = true" color="secondary"
-              >Individuelle Einstellungen</UButton
-            >
+            <UButton @click="acceptCookies">Alle akzeptieren</UButton>
           </div>
         </div>
       </template>
@@ -49,6 +46,12 @@
 
     <UContainer class="gap-4 flex flex-col justify-between" v-else>
       <MenuBarComponent />
+
+      <div
+        class="overflow-hidden top-0 left-0 w-full h-full fixed pointer-events-none z-50"
+      >
+        <div v-for="x in 3000" :key="x" class="snowflake"></div>
+      </div>
 
       <NuxtPage style="margin-top: 80px" />
 
@@ -58,14 +61,23 @@
 </template>
 
 <script lang="ts" setup>
-const router = useRouter();
-const showCookieBanner = ref(false);
+import { useCookieConsentStore } from "./stores/cookie-consent";
 
-router.afterEach((from, to) => {
-  //pageCheck();
+const router = useRouter();
+const showCookieBanner = ref(true);
+
+const state = useCookieConsentStore();
+
+router.afterEach(async (from, to) => {
+  await pageCheck();
 });
 
-function pageCheck() {
+async function pageCheck() {
+  if (state.hasConsent) {
+    showCookieBanner.value = false;
+    return;
+  }
+
   if (router.currentRoute.value.path.startsWith("/legal")) {
     showCookieBanner.value = false;
   } else {
@@ -73,7 +85,12 @@ function pageCheck() {
   }
 }
 
-//pageCheck();
+function acceptCookies() {
+  showCookieBanner.value = false;
+  state.setConsent(true);
+}
+
+pageCheck();
 </script>
 
 <style>
