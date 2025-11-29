@@ -8,6 +8,8 @@ export default defineNuxtConfig({
     "@tresjs/nuxt",
     "@pinia/nuxt",
     "pinia-plugin-persistedstate/nuxt",
+    "@nuxtjs/sitemap",
+    "@nuxtjs/seo",
   ],
   css: ["~/assets/main.css", "~/assets/snow.scss"],
   app: {
@@ -47,6 +49,35 @@ export default defineNuxtConfig({
     fallback: "dark",
   },
   piniaPluginPersistedstate: { storage: "localStorage" },
+  sitemap: {
+    autoI18n: true,
+    credits: true,
+    discoverImages: true,
+    sitemapName: "sitemap.xml",
+    discoverVideos: true,
+    autoLastmod: true,
+    exclude: ["/gallery", "/family-tree", "/legal/*", "/legal", "/m"],
+  },
+  robots: {
+    blockAiBots: true,
+    blockNonSeoBots: true,
+    credits: true,
+    robotsTxt: true,
+  },
+  ogImage: {
+    zeroRuntime: true,
+  },
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      routes: ["/members", "/m/[member]"],
+    },
+  },
+  site: {
+    url: "https://chaos-familie.de",
+    name: "Chaos Familie",
+    defaultLocale: "de",
+  },
   image: {
     provider: "directus",
     format: ["webp"],

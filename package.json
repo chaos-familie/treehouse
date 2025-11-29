@@ -14,6 +14,8 @@
     "@directus/sdk": "^20.1.1",
     "@nuxt/image": "2.0.0",
     "@nuxt/ui": "4.1.0",
+    "@nuxtjs/seo": "3.2.2",
+    "@nuxtjs/sitemap": "7.4.7",
     "@pinia/nuxt": "0.11.3",
     "@tresjs/cientos": "^5.1.0",
     "@tresjs/core": "^5.1.0",
