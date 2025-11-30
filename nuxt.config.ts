@@ -40,7 +40,6 @@ export default defineNuxtConfig({
           sizes: "32x32",
         },
       ],
-      title: "Chaos Familie",
     },
   },
   colorMode: {
@@ -50,8 +49,8 @@ export default defineNuxtConfig({
   },
   piniaPluginPersistedstate: { storage: "localStorage" },
   sitemap: {
-    autoI18n: true,
-    credits: true,
+    autoI18n: false,
+    credits: false,
     discoverImages: true,
     sitemapName: "sitemap.xml",
     discoverVideos: true,
