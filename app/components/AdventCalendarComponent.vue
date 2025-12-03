@@ -19,6 +19,7 @@ import { Directus } from "~/directus";
 import { readItems } from "@directus/sdk";
 import { useAdventStore } from "../stores/advent-store";
 import { usePinch } from "@vueuse/gesture";
+import showdown from "showdown";
 
 const { state, isLoading } = useGLTF("/AdventCalendar/Calendar.glb");
 const calendarRef = ref<THREE.Object3D>();
@@ -93,7 +94,17 @@ watch(pressed, (isPressed) => {
 
     if (intersection2.length > 0) {
       if (today.getTime() >= thisDay.getTime()) {
-        const item = await Directus.request<{}[]>(
+        const item = await Directus.request<
+          {
+            id: string;
+            text?: string;
+            image?: string;
+            video?: string;
+            yt_link?: string;
+            member: string;
+            date: string;
+          }[]
+        >(
           readItems("advent_calendar", {
             limit: 1,
             filter: {
@@ -103,6 +114,11 @@ watch(pressed, (isPressed) => {
         );
 
         if (!item[0]) return;
+
+        if (item[0].text) {
+          const converter = new showdown.Converter();
+          item[0].text = converter.makeHtml(item[0].text!);
+        }
 
         store.setData(item[0]);
         store.setOpen(true);

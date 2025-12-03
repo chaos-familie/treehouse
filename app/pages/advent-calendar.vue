@@ -32,16 +32,18 @@
         <video
           :src="'https://cms.chaos-familie.de/assets/' + data.video"
           class="rounded-lg"
-          style="width: 50%"
+          style="height: 80%; aspect-ratio: 16 / 9"
           controls
           controlslist="nodownload noremoteplayback"
           playsinline
           v-if="data.video"
         />
 
-        <p v-else-if="data.text" class="text-center">
-          {{ data.text }}
-        </p>
+        <div
+          v-html="data.text.trim()"
+          style="margin-top: -30px"
+          v-else-if="data.text"
+        ></div>
 
         <NuxtImg
           v-if="data.image"
@@ -72,4 +74,12 @@ import AdventCalendarComponent from "~/components/AdventCalendarComponent.vue";
 const store = useAdventStore();
 
 const { data, isOpen } = storeToRefs(store);
+
+useSeoMeta({
+  title: "Adventskalendar",
+  ogDescription: "Der Chaos-Familien Adventskalendar",
+  ogImage:
+    "http://cms.chaos-familie.de/assets/08e24028-3fac-4948-87c6-fabc44b72b7a",
+  twitterCard: "summary_large_image",
+});
 </script>
