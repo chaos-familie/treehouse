@@ -69,4 +69,6 @@ async function init() {
 }
 
 init();
+
+useSeoMeta({ title: "Startseite" });
 </script>

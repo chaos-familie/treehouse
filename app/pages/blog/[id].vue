@@ -9,7 +9,10 @@
         v-slot="{ src, isLoaded, imgAttrs }"
         :custom="true"
         style="object-fit: contain; max-height: 40vh; margin-top: 80px"
+        :style="{'height':openerImage!.height+'px'}"
         class="self-center w-full"
+        :width="openerImage!.width ?? 0"
+        :height="openerImage!.height ?? 0"
       >
         <TransitionGroup :duration="2000" persisted>
           <img v-if="isLoaded" v-bind="imgAttrs" :src="src" />
@@ -73,12 +76,23 @@ async function init() {
     readItem("blog", Number(route.params["id"]))
   );
 
-  openerImage.value = await Directus.request<CustomDirectusFile>(
-    readFile(data.value.opener_image)
-  );
-
   author.value = await Directus.request<DirectusUser>(
     readUser(data.value.user_created, { fields: ["first_name", "avatar"] })
+  );
+
+  useSeoMeta({
+    title: data.value.title,
+    ogDescription: data.value.description,
+    twitterCard: "summary",
+    articleTag: data.value.tags,
+    articlePublishedTime: data.value.date_created,
+    articleModifiedTime: data.value.date_updated,
+    articleSection: "Blog",
+    articleAuthor: [author.value?.first_name ?? ""],
+  });
+
+  openerImage.value = await Directus.request<CustomDirectusFile>(
+    readFile(data.value.opener_image)
   );
 
   html.value = data!.value.post;

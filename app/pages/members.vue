@@ -91,4 +91,10 @@ async function init() {
 }
 
 init();
+
+useSeoMeta({
+  title: "Mitglieder",
+  ogDescription: "Die Mitglieder der Chaos-Familie",
+  twitterCard: "summary",
+});
 </script>

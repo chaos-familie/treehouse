@@ -1156,3 +1156,10 @@ p {
     >
   </p>
 </template>
+
+<script lang="ts" setup>
+useSeoMeta({
+  title: "Datenschutz",
+  twitterCard: "summary",
+});
+</script>

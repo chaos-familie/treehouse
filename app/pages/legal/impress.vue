@@ -32,3 +32,10 @@ p {
     <a href="https://www.e-recht24.de" class="link">https://www.e-recht24.de</a>
   </p>
 </template>
+
+<script lang="ts" setup>
+useSeoMeta({
+  title: "Impressum",
+  twitterCard: "summary",
+});
+</script>

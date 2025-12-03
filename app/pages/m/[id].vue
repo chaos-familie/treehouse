@@ -305,6 +305,13 @@ async function init() {
     return;
   }
 
+  useSeoMeta({
+    title: data.value.display_name,
+    ogDescription: data.value.description,
+    ogImage: data.value.picture,
+    twitterCard: "summary_large_image",
+  });
+
   relations.value = data.value!.relations ?? [];
 
   for (const relation of relations.value) {

@@ -43,4 +43,10 @@ async function init() {
 }
 
 init();
+
+useSeoMeta({
+  title: "Blog",
+  ogDescription: "Der Blog der Chaos-Familie",
+  twitterCard: "summary",
+});
 </script>
