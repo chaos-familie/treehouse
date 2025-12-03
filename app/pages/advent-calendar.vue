@@ -39,11 +39,15 @@
           v-if="data.video"
         />
 
-        <div
-          v-html="data.text.trim()"
+        <VueShowdown
           style="margin-top: -30px"
+          :markdown="data.text"
+          :options="{
+            backslashEscapesHTMLTags: true,
+            simpleLineBreaks: true,
+          }"
           v-else-if="data.text"
-        ></div>
+        />
 
         <NuxtImg
           v-if="data.image"
@@ -69,6 +73,7 @@
 
 <script setup lang="ts">
 import { TresCanvas } from "@tresjs/core";
+import { VueShowdown } from "vue-showdown";
 import AdventCalendarComponent from "~/components/AdventCalendarComponent.vue";
 
 const store = useAdventStore();
