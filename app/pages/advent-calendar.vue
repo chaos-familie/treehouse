@@ -39,6 +39,13 @@
           v-if="data.video"
         />
 
+        <audio
+          :src="'https://cms.chaos-familie.de/assets/' + data.audio"
+          controlslist="nodownload noremoteplayback"
+          controls
+          v-if="data.audio"
+        />
+
         <VueShowdown
           style="margin-top: -30px"
           :markdown="data.text"
@@ -60,7 +67,8 @@
           v-if="data.yt_link"
           :src="
             'https://www.youtube-nocookie.com/embed/' +
-            data.yt_link!.split('watch?v=')[1] +'?vq=hd1080&modestbranding=1&rel=0'
+            data.yt_link!.split('watch?v=')[1] +
+            '?vq=hd1080&modestbranding=1&rel=0'
           "
           frameborder="0"
           allowfullscreen

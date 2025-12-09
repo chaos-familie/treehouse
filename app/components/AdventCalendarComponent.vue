@@ -100,6 +100,7 @@ watch(pressed, (isPressed) => {
             image?: string;
             video?: string;
             yt_link?: string;
+            audio?: string;
             member: string;
             date: string;
           }[]

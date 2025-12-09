@@ -4,6 +4,7 @@ export const useAdventStore = defineStore("display_data", () => {
     image?: string;
     yt_link?: string;
     video?: string;
+    audio?: string;
     member?: string;
   }>({});
   const isOpen = ref(false);
