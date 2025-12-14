@@ -10,11 +10,7 @@
     <AdventCalendarComponent />
   </TresCanvas>
 
-  <UModal
-    :open="isOpen"
-    :dismissible="false"
-    :fullscreen="data.video !== null || data.image !== null"
-  >
+  <UModal :open="isOpen" :dismissible="false" :fullscreen="data.video !== null">
     <template #title> {{ data.member }}'s Türchen </template>
 
     <template #close>
@@ -31,7 +27,7 @@
       <div class="w-full h-full flex flex-col items-center justify-center">
         <video
           :src="'https://cms.chaos-familie.de/assets/' + data.video"
-          class="rounded-lg"
+          class="rounded-xl"
           style="height: 80%; aspect-ratio: 16 / 9"
           controls
           controlslist="nodownload noremoteplayback"
@@ -59,7 +55,7 @@
         <NuxtImg
           v-if="data.image"
           :src="data.image"
-          class="rounded-lg w-96"
+          class="rounded-xl w-96"
           format="webp"
         />
 
@@ -72,7 +68,7 @@
           "
           frameborder="0"
           allowfullscreen
-          class="rounded-lg w-full"
+          class="rounded-xl w-full aspect-video"
         ></iframe>
       </div>
     </template>
