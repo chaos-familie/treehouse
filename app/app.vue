@@ -46,12 +46,12 @@
 
     <UContainer class="gap-4 flex flex-col justify-between" v-else>
       <MenuBarComponent />
-
+      <!-- 
       <div
         class="overflow-hidden top-0 left-0 w-full h-full fixed pointer-events-none z-50"
       >
         <div v-for="x in 3000" :key="x" class="snowflake"></div>
-      </div>
+      </div> -->
 
       <NuxtPage style="margin-top: 80px" />
 

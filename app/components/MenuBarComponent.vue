@@ -39,13 +39,13 @@ const items = computed<NavigationMenuItem[]>(() => [
     label: "Start",
     to: "/",
     active: route.path === "/",
-  },
+  } /*
   {
     icon: "lucide:calendar",
     label: "Adventskalender",
     to: "/advent-calendar",
     active: route.path === "/advent-calendar",
-  },
+  },*/,
   {
     icon: "lucide:newspaper",
     label: "Blog",
